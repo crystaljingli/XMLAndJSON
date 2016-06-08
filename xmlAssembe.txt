@@ -1,0 +1,93 @@
+一.Document 方式
+1.xml格式
+  <LockSeatParameter> 
+	   <AppCode>TESTUSER</AppCode>
+	   <CinemaCode>20120002</CinemaCode>
+	   <FeatureAppNo>77203</FeatureAppNo>
+	   <SeatInfos>
+		  <SeatCode>1001</SeatCode>
+		  <SeatCode>1002</SeatCode>
+	   </SeatInfos>
+	   <Compress>0</Compress>
+	   <VerifyInfo>4ea31ba9bd0883f12f2bd9521074a539</VerifyInfo>
+ </LockSeatParameter>
+2.核心类
+  DocumentHelper
+3.节点的创建
+  Document document = DocumentHelper.createDocument();//创建一个文档
+  Element root = document.addElement("LockSeatParameter");
+  Element appCodeEle = DocumentFactory.getInstance().createElement("AppCode");
+  appCodeEle.setText(Constants.CHENXING_ACCOUNT);
+  root.add(appCodeEle);
+4.例子
+	Document document = DocumentHelper.createDocument();
+	Element root = document.addElement("LockSeatParameter");
+	Element appCodeEle = DocumentFactory.getInstance().createElement("AppCode");
+	appCodeEle.setText(Constants.CHENXING_ACCOUNT);
+	Element cinemaCodeEle = DocumentFactory.getInstance().createElement("CinemaCode");
+	cinemaCodeEle.setText(offerCinemaId);
+	Element featureAppNoEle = DocumentFactory.getInstance().createElement("FeatureAppNo");
+	featureAppNoEle.setText(offerForetellId);
+	Element seatInfosEle = DocumentFactory.getInstance().createElement("SeatInfos");
+	for(String seatId:jyseats.split(",")){
+		Element seatEle=DocumentFactory.getInstance().createElement("SeatCode");
+		paramsList.add(seatId);
+		seatEle.setText(seatId);
+		seatInfosEle.add(seatEle);
+	}
+	Element compressEle = DocumentFactory.getInstance().createElement("Compress");
+	compressEle.setText(Constants.CHENXING_ISCOMPRESS);
+	Element verifyInfoEle = DocumentFactory.getInstance().createElement("VerifyInfo");
+	verifyInfoEle.setText(this.getVerifyInfo(paramsList));
+    root.add(appCodeEle);
+	root.add(cinemaCodeEle);
+	root.add(featureAppNoEle);
+	root.add(seatInfosEle);
+	root.add(compressEle);
+	root.add(verifyInfoEle);
+二.String 方式
+1.xml格式
+  <?xml version="1.0"?>
+  <SellTicketParameter> 
+	  <AppCode>XXXX</AppCode>
+	  <CinemaId>XXXX<CinemaId>
+	  <FeatureAppNo>XXXX</FeatureAppNo>
+	  <SerialNum>XXXX</SerialNum>
+	  <Printpassword>XXXX</Printpassword>
+	  <Balance>XXX</Balance>
+	  <PayType>XXXX</PayType>
+	  <RecvMobilePhone>XXXX</RecvMobilePhone>
+	  <SendType>XXXX</SendType>
+	  <PayResult>XXXX</PayResult>
+	 <IsCmtsPay>XXXX</IsCmtsPay>
+	 <IsCmtsSendCode>XXXX</IsCmtsSendCode>
+	 <PayMobile>XXX</PayMobile>
+	 <BookSign>XXX</BookSign>
+	 <Payed>XXX</Payed>
+	 <SendModeID>XXX</SendModeID>
+	 <PaySeqNo>XXXX</PaySeqNo>
+	 <TokenID>XXXX</TokenID>
+	 <VerifyInfo>XXXX</VerifyInfo>
+</SellTicketParameter> 
+String xmlStr = "<?xml version=\"1.0\"?>" +
+				"<SellTicketParameter>" +
+					"<AppCode>"+getAppCode()+"</AppCode>" +
+					"<CinemaId>"+offerCinemaId+"</CinemaId>" +
+					"<FeatureAppNo>"+offerForetellId+"</FeatureAppNo>" +
+					"<SerialNum>"+thirdPartOrderId+"</SerialNum>" +
+					"<Printpassword></Printpassword>"+
+					"<Balance>0</Balance>" +
+					"<PayType>"+payType+"</PayType>" +
+					"<RecvMobilePhone>"+RecvMobilePhone+"</RecvMobilePhone>" +
+					"<SendType>"+SendType+"</SendType>" +
+					"<PayResult>"+payResult+"</PayResult>" +
+					"<IsCmtsPay>"+isCmtsPay+"</IsCmtsPay>" +
+					"<IsCmtsSendCode>"+IsCmtsSendCode+"</IsCmtsSendCode>" +
+					"<PayMobile>"+PayMobile+"</PayMobile>" +
+					"<BookSign>"+bookSign+"</BookSign>" +
+					"<Payed>"+Payed+"</Payed>" +
+					"<SendModeID>"+sendModeID+"</SendModeID>" +
+					"<PaySeqNo>"+paySeqNo+"</PaySeqNo>" +
+					"<TokenID>"+getToken()+"</TokenID>"+
+					"<VerifyInfo>"+sign+"</VerifyInfo>" +
+				"</SellTicketParameter>";

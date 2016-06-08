@@ -1,0 +1,48 @@
+1.jSON 格式
+{
+    "ResultCode": "0",
+    "HallSites": {
+        "HallSite": [{
+            "SeatNo": "XXXX",
+            "SeatRow": "XXXX",
+            "SeatCol": "XXXX",
+            "GraphRow": "XXXX",
+            "GraphCol": "XXXX",
+            "SeatPieceNo": "XXXX"
+        }]
+    }
+}
+
+
+2.核心类
+  JSONObject jsonObject = (JSONObject) JSONValue.parse(result);//result是返回的String
+  jsonObject.get("CODE") ;
+  jsonObject.get("DATA");
+  JSONArray jsonArray = JSONArray.fromObject(data);//String data = String.valueOf(resultObject.getData());
+  JSONObject jsonObject = jsonArray.getJSONObject(i);
+3.解析节点
+    JSONObject resultJson=(JSONObject) JSONValue.parse(documentStr);
+	errorCode = Integer.parseInt(resultJson.get("ResultCode").toString());
+	if(errorCode == 0){
+		result = true;
+		JSONArray hallSeatArr=(JSONArray) resultJson.get("HallSites");
+		JSONObject seatJson=null;
+		Seat seat=null;
+		for(int i=0,j=hallSeatArr.size();i<j;i++){
+			seatJson=(JSONObject) hallSeatArr.get(i);
+			seat=new Seat();
+			seat.setOfferSeatId(seatJson.get("seatNo").toString());
+			seat.setRowId(seatJson.get("seatRow").toString());
+			seat.setColumnId(seatJson.get("seatCol").toString());
+			seat.setRowNum(seatJson.get("graphRow").toString());
+			seat.setColumnNum(seatJson.get("graphCol").toString());
+			seat.setSectionId(seatJson.get("seatPieceNo").toString());
+			seatplanList.add(seat);
+		}
+	}
+4.扩展
+4.1 map转换为Json
+    JSONObject jsonObject = JSONObject.fromMap(productMap);  
+4.2 json转为map
+ObjectMapper mapper = new ObjectMapper();  
+Map<String,Object> productMap = mapper.readValue(json);//转成map

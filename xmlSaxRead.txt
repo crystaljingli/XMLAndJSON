@@ -1,0 +1,34 @@
+一.SAXReader
+1.xml格式
+  <?xml version="1.0"?>
+  <GetCinemaResult xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ResultCode>0</ResultCode>
+  <Cinemas>
+    <Cinema>
+	<PlaceNo>XXXX</PlaceNo>
+	<PlaceName>XXXX</PlaceName>
+     <CityNo>XXXX</CityNo>
+    </Cinema>
+    <Cinema>
+	<PlaceNo>XXXX</PlaceNo>
+	<PlaceName>XXXX</PlaceName>
+     <CityNo>XXXX</CityNo>
+    </Cinema>
+  </Cinemas>
+</GetCinemaResult>
+2.核心类
+  Document  SAXReader
+3.节点解析
+  3.1通过请求获得一个String字符串 String documentStr = MyHttpClient.skystar(getUrl(),"GetCinema", ps,this.offerId);
+  Document document = saxReader.read(new ByteArrayInputStream(documentStr.getBytes("UTF8")));
+  Element rootE = document.getRootElement();
+  String resultCode = rootE.element("ResultCode").getText()；
+  Element cinemasE = rootE.element("Cinemas");
+  Iterator<?> iterator = cinemasE.elementIterator();//cinemasE.elementIterator("Cinema");
+  while(iterator.hasNext()){
+		Element cinemaEl = (Element) iterator.next();
+		Cinema cinema =new Cinema();
+		cinema.setOfferCinemaId(cinemaEl.element("PlaceNo").getText()); //cinemaEl.elementText("PlaceNo")====cinemaEl.element("PlaceNo").getText()
+		cinema.setCinamaName(cinemaEl.element("PlaceName").getText());
+		cinema.setOfferCityId(cinemaEl.element("CityNo").getText());
+    }
